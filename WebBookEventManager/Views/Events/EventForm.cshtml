@@ -1,0 +1,64 @@
+﻿@model WebBookEventManager.ViewModels.EventFormViewModel
+
+@{
+    ViewBag.Title = "EventForm";
+}
+
+<h2>New Event</h2>
+
+@using (Html.BeginForm("Save", "Events"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class= "required" })
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date, new { @class = "required" })
+        @Html.TextBoxFor(m => m.Date, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Date)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Location, new { @class = "required" })
+        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Location)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.StartTime, new { @class = "required" })
+        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.StartTime)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.EventType)
+        @Html.EnumDropDownListFor(m => m.EventType, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.EventType)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DurationInHours)
+        @Html.TextBoxFor(m => m.DurationInHours, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DurationInHours)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.OtherDetails)
+        @Html.TextAreaFor(m => m.OtherDetails, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.OtherDetails)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}
