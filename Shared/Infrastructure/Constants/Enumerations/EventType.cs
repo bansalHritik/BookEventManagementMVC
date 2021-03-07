@@ -1,4 +1,4 @@
-﻿namespace Shared.Infrastructure
+﻿namespace Shared.Constants.Enums
 {
     public enum EventType
     {

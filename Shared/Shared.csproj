@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Infrastructure\Class1.cs" />
+    <Compile Include="Infrastructure\Constants\Enumerations\EventType.cs" />
+    <Compile Include="Infrastructure\Constants\Strings\ApplicationConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
