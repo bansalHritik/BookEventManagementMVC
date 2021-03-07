@@ -1,5 +1,5 @@
-﻿using Shared.Infrastructure;
-using System;
+﻿using System;
+using Shared.Constants.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
