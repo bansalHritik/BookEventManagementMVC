@@ -3,10 +3,6 @@
     ViewBag.Title = "Home Page";
 }
 
-
-@Html.ActionLink("New Event", "Create", "Events", null, new { @class = "btn btn-primary" })
-
-
 @if (Model.Events.Count() == 0)
 {
     <p>No Events</p>
