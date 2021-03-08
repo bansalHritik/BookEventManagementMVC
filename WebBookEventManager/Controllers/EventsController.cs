@@ -1,4 +1,4 @@
-﻿using DTO.DTO;
+﻿using DTO.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
