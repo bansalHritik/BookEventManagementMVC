@@ -10,6 +10,7 @@ namespace WebBookEventManager.Controllers
 {
     public class HomeController : Controller
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var unitOfWork = new UnitOfWork();

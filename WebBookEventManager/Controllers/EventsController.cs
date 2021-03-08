@@ -7,18 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBookEventManager.ViewModels;
 
 namespace WebBookEventManager.Controllers
 {
     public class EventsController : Controller
     {
         // GET: Events
-
+        [Authorize]
         public ActionResult Create()
         {
             return View("EventForm");
         }
 
+        [ValidateAntiForgeryToken, HttpPost]
         public ActionResult Save(EventDto eventDto)
         {
             if (!ModelState.IsValid)
@@ -36,6 +38,12 @@ namespace WebBookEventManager.Controllers
         public ActionResult Manage()
         {
             return View();
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var viewModel = new EventFormViewModel();
+            return View("EventForm", viewModel);
         }
 
         public ActionResult Detail(int id)
