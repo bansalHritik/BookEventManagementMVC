@@ -1,6 +1,20 @@
-﻿@{
+﻿@model WebBookEventManager.ViewModels.HomeViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
 
-@Html.ActionLink("New Event", "Create", "Events", null, new { @class="btn btn-primary"})
+@Html.ActionLink("New Event", "Create", "Events", null, new { @class = "btn btn-primary" })
+
+
+@if (Model.Events.Count() == 0)
+{
+    <p>No Events</p>
+}
+
+<ul>
+    @foreach (var item in Model.Events)
+    {
+        <li>@Html.ActionLink(item.Title, "Detail", "Events", new { id = item.Id}, null)</li>
+    }
+</ul>

@@ -1,4 +1,7 @@
-﻿using DTO.Events;
+﻿using AutoMapper;
+using DTO.Events;
+using Entities.Models;
+using Entities.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +13,6 @@ namespace WebBookEventManager.Controllers
     public class EventsController : Controller
     {
         // GET: Events
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult Create()
         {
@@ -26,6 +25,11 @@ namespace WebBookEventManager.Controllers
             {
                 return RedirectToAction("Create");
             }
+            var unitOfWork = new UnitOfWork();
+            var eventModel = Mapper.Map<EventDto, Event>(eventDto);
+            var events = unitOfWork.Events.GetAll();
+            unitOfWork.Events.Add(eventModel);
+            unitOfWork.Complete();
             return RedirectToAction("Index", "Home");
         }
 
@@ -36,7 +40,9 @@ namespace WebBookEventManager.Controllers
 
         public ActionResult Detail(int id)
         {
-            return View();
+            var unitOfWork = new UnitOfWork();
+            var eventInDB = unitOfWork.Events.Get(id);
+            return View(Mapper.Map<Event, EventDto>(eventInDB));
         }
     }
 }

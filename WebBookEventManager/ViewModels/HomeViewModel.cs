@@ -9,6 +9,6 @@ namespace WebBookEventManager.ViewModels
 {
     public class HomeViewModel
     {
-        
+        public IEnumerable<EventDto> Events { get; set; }
     }
 }

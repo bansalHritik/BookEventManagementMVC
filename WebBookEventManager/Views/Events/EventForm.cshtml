@@ -28,7 +28,7 @@
 
     <div class="form-group">
         @Html.LabelFor(m => m.StartTime, new { @class = "required" })
-        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type="time" })
         @Html.ValidationMessageFor(m => m.StartTime)
     </div>
 

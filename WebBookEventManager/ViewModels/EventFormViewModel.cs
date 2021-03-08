@@ -23,8 +23,8 @@ namespace WebBookEventManager.ViewModels
         [Required]
         public string Location { get; set; }
 
-        [Required, Display(Name = "Start Time")]
-        public DateTime StartTime { get; set; }
+        [Required, Display(Name = "Start Time"), DataType(DataType.Time)]
+        public string StartTime { get; set; }
 
         [Range(0.0, 4.0), Display(Name = "Duration(in hours)")]
         public byte? DurationInHours { get; set; }
