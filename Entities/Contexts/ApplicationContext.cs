@@ -7,10 +7,8 @@ namespace Entities
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext():base("name=DefaultConnection") {}
+        public ApplicationContext():base("ApplicationConnection") {}
 
         public DbSet<Event> Events { get; set; }
-
-       
     }
 }
