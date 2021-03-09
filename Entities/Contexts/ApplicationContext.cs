@@ -10,5 +10,6 @@ namespace Entities
         public ApplicationContext():base("ApplicationConnection") {}
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

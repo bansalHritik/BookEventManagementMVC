@@ -9,7 +9,7 @@ namespace Entities.Models
     {
         public Event()
         {
-            EventType = EventType.Public;
+            Type = EventType.Public;
         }
 
         public int Id { get; set; }
@@ -17,17 +17,18 @@ namespace Entities.Models
         [Required]
         public string Title { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         [Required]
         public string Location { get; set; }
 
-        //TODO: Start time 
+        [Required]
+        public string StartTime { get; set; }
 
         [Required]
-        public EventType EventType { get; set; }
-        
+        public EventType Type { get; set; }
+
         public byte? Duration { get; set; }
 
         [StringLength(50)]
@@ -36,6 +37,9 @@ namespace Entities.Models
         [StringLength(500)]
         public string OtherDetails { get; set; }
 
-        public IEnumerable<string> EmailInvites { get; set; }
+        public string EmailInvites { get; set; }
+
+        [Required]
+        public string AuthorId { get; set; }
     }
 }

@@ -57,11 +57,43 @@
     <Compile Include="Migrations\202103070644395_InitialCreate.designer.cs">
       <DependentUpon>202103070644395_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103081206398_UpdatedEventTypeField.cs" />
+    <Compile Include="Migrations\202103081206398_UpdatedEventTypeField.designer.cs">
+      <DependentUpon>202103081206398_UpdatedEventTypeField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103081208533_AddEmailInvities.cs" />
+    <Compile Include="Migrations\202103081208533_AddEmailInvities.designer.cs">
+      <DependentUpon>202103081208533_AddEmailInvities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103081210092_UpdatedEventTypeField1.cs" />
+    <Compile Include="Migrations\202103081210092_UpdatedEventTypeField1.designer.cs">
+      <DependentUpon>202103081210092_UpdatedEventTypeField1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103081223437_UpdatedEventTypeField2.cs" />
+    <Compile Include="Migrations\202103081223437_UpdatedEventTypeField2.designer.cs">
+      <DependentUpon>202103081223437_UpdatedEventTypeField2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103081230438_AddAuthorIdToEvent.cs" />
+    <Compile Include="Migrations\202103081230438_AddAuthorIdToEvent.designer.cs">
+      <DependentUpon>202103081230438_AddAuthorIdToEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103081306034_UpdateAuthorIdType.cs" />
+    <Compile Include="Migrations\202103081306034_UpdateAuthorIdType.designer.cs">
+      <DependentUpon>202103081306034_UpdateAuthorIdType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103090640472_AddCommentTableToDB.cs" />
+    <Compile Include="Migrations\202103090640472_AddCommentTableToDB.designer.cs">
+      <DependentUpon>202103090640472_AddCommentTableToDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Invitation.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CommentRepository.cs" />
     <Compile Include="Repository\EventRepository.cs" />
+    <Compile Include="Repository\ICommentRepository.cs" />
     <Compile Include="Repository\IEventRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
@@ -81,6 +113,27 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202103070644395_InitialCreate.resx">
       <DependentUpon>202103070644395_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081206398_UpdatedEventTypeField.resx">
+      <DependentUpon>202103081206398_UpdatedEventTypeField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081208533_AddEmailInvities.resx">
+      <DependentUpon>202103081208533_AddEmailInvities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081210092_UpdatedEventTypeField1.resx">
+      <DependentUpon>202103081210092_UpdatedEventTypeField1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081223437_UpdatedEventTypeField2.resx">
+      <DependentUpon>202103081223437_UpdatedEventTypeField2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081230438_AddAuthorIdToEvent.resx">
+      <DependentUpon>202103081230438_AddAuthorIdToEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103081306034_UpdateAuthorIdType.resx">
+      <DependentUpon>202103081306034_UpdateAuthorIdType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103090640472_AddCommentTableToDB.resx">
+      <DependentUpon>202103090640472_AddCommentTableToDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

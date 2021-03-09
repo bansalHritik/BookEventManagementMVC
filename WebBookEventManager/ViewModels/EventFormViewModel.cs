@@ -11,8 +11,11 @@ namespace WebBookEventManager.ViewModels
     {
         public EventFormViewModel()
         {
-            EventType = EventType.Public;
+            Type = EventType.Public;
+            Id = 0;
         }
+
+        public int? Id { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -36,6 +39,8 @@ namespace WebBookEventManager.ViewModels
         public string OtherDetails { get; set; }
 
         [Display(Name = "Event Type")]
-        public EventType EventType { get; set; }
+        public EventType Type { get; set; }
+
+        public string EmailInvities { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace DTO.Events
 
         public string Location { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
 
         public byte Duration { get; set; }
 
@@ -21,6 +21,8 @@ namespace DTO.Events
 
         public string OtherDetails { get; set; }
 
-        public EventType EventType { get; set; }
+        public EventType Type { get; set; }
+
+        
     }
 }

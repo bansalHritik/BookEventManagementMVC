@@ -1,8 +1,18 @@
-﻿
+﻿@model IEnumerable<DTO.Events.EventDto>
+@{
+    var events = Model;
+}
 @{
     ViewBag.Title = "Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage</h2>
+<h4>Manage Your Events</h4>
+<hr />
 
+<div class="row">
+    @foreach (var evnt in events)
+    {
+        @Html.Partial("_EventCard", evnt);
+    }
+</div>

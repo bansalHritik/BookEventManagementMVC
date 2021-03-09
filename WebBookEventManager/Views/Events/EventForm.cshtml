@@ -9,14 +9,14 @@
 @using (Html.BeginForm("Save", "Events"))
 {
     <div class="form-group">
-        @Html.LabelFor(m => m.Title, new { @class= "required" })
+        @Html.LabelFor(m => m.Title, new { @class = "required" })
         @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Title)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.Date, new { @class = "required" })
-        @Html.TextBoxFor(m => m.Date, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Date, "{0:d MMM yyyy}", new { @class = "form-control", @type = "date" })
         @Html.ValidationMessageFor(m => m.Date)
     </div>
 
@@ -28,14 +28,14 @@
 
     <div class="form-group">
         @Html.LabelFor(m => m.StartTime, new { @class = "required" })
-        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type="time" })
+        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "time" })
         @Html.ValidationMessageFor(m => m.StartTime)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.EventType)
-        @Html.EnumDropDownListFor(m => m.EventType, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.EventType)
+        @Html.LabelFor(m => m.Type)
+        @Html.EnumDropDownListFor(m => m.Type, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Type)
     </div>
 
     <div class="form-group">
@@ -55,10 +55,25 @@
         @Html.TextAreaFor(m => m.OtherDetails, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.OtherDetails)
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EmailInvities)
+        @Html.TextBoxFor(m => m.EmailInvities, new { @class = "form-control", @id="invities" })
+        @Html.ValidationMessageFor(m => m.EmailInvities)
+    </div>
 
+    @Html.AntiForgeryToken();
     <button type="submit" class="btn btn-primary">Submit</button>
 }
 
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval");
+    <script>
+        $(document).ready(function () {
+            var field = $("#invities");
+            field.on('keypress', (e) => {
+                console.log(e.keyCode == 13)
+            })
+
+        })
+    </script>
 }

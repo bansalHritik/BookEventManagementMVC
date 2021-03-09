@@ -9,11 +9,13 @@ namespace Entities.Persistence
         private readonly ApplicationContext _context;
 
         public IEventRepository Events { get; private set; }
+        public ICommentRepository Comments { get; set; }
 
         public UnitOfWork()
         {
             _context = new ApplicationContext();
             Events = new EventRepository(_context);
+            Comments = new CommentRepository(_context);
         }
 
         public int Complete()

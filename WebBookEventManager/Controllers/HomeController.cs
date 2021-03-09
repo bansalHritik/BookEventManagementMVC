@@ -2,7 +2,10 @@
 using DTO.Events;
 using Entities.Models;
 using Entities.Persistence;
+using Shared.Constants.Enums;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using WebBookEventManager.ViewModels;
 
@@ -14,31 +17,37 @@ namespace WebBookEventManager.Controllers
         public ActionResult Index()
         {
             var unitOfWork = new UnitOfWork();
-            var events = new List<EventDto>();
-            foreach (var eventInDb in unitOfWork.Events.GetAll())
+
+            var pastEvents = new List<EventDto>();
+            var upcomingEvents = new List<EventDto>();
+            var currentDateTime = DateTime.Now;
+
+            foreach (var evnt in unitOfWork.Events.GetAll())
             {
-                events.Add(Mapper.Map<Event, EventDto>(eventInDb));
+                if(evnt.Type == EventType.Public)
+                {
+                    if(evnt.Date < currentDateTime)
+                    {
+                        pastEvents.Add(Mapper.Map<Event, EventDto>(evnt));
+                    }
+                    else
+                    {
+                        upcomingEvents.Add(Mapper.Map<Event, EventDto>(evnt));
+                    }
+                    
+                }
+                //else if(!User.Identity.IsAuthenticated)
+                //{
+                    
+                //}
             }
 
             var viewModel = new HomeViewModel()
             {
-                Events = events,
+                PresentEvents = upcomingEvents,
+                PastEvents = pastEvents
             };
             return View(viewModel);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }
