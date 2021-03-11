@@ -36,7 +36,6 @@ namespace WebBookEventManager.Controllers.API
         public IHttpActionResult GetEvents()
         {
             var unitOfWork = new UnitOfWork();
-
             var pastEvents = new List<EventDto>();
             var upcomingEvents = new List<EventDto>();
 
@@ -46,8 +45,12 @@ namespace WebBookEventManager.Controllers.API
             {
                 if (evnt.Type == EventType.Private && User.Identity.IsAuthenticated)
                 {
-                    var isInvited = unitOfWork.Invitations.Find(m => m.UserEmail == User.Identity.GetUserId()).Any(m => m.EventId == evnt.Id);
-                    if (!isInvited) continue;
+                    var userId = User.Identity.GetUserId();
+                    var isInvited = unitOfWork.Invitations.Find(m => m.UserEmail == userId).Any(m => m.EventId == evnt.Id);
+
+                    if (!isInvited && userId != evnt.AuthorId) {
+                        continue;
+                    }
                 }
                 if (evnt.Date < currentDateTime)
                 {
