@@ -89,6 +89,10 @@
     <Compile Include="Migrations\202103091057418_AddInvitationTableToDB.designer.cs">
       <DependentUpon>202103091057418_AddInvitationTableToDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103110755129_AddedUserIdandDatetoCommentTable.cs" />
+    <Compile Include="Migrations\202103110755129_AddedUserIdandDatetoCommentTable.designer.cs">
+      <DependentUpon>202103110755129_AddedUserIdandDatetoCommentTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Event.cs" />
@@ -143,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103091057418_AddInvitationTableToDB.resx">
       <DependentUpon>202103091057418_AddInvitationTableToDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103110755129_AddedUserIdandDatetoCommentTable.resx">
+      <DependentUpon>202103110755129_AddedUserIdandDatetoCommentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

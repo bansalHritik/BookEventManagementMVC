@@ -10,6 +10,7 @@ using Entities.Models;
 using DTO.Events;
 using AutoMapper;
 using DTO.Comment;
+using Microsoft.AspNet.Identity;
 
 namespace WebBookEventManager.Controllers.API
 {
@@ -52,6 +53,9 @@ namespace WebBookEventManager.Controllers.API
             }
             var comment = Mapper.Map<CommentDto, Comment>(commentDto);
             comment.EventId = id;
+            var userID = User.Identity.GetUserId();
+            comment.UserId = userID;
+            comment.Date = DateTime.Now;
             _context.Comments.Add(comment);
             _context.Complete();
             return Created(new Uri(Request.RequestUri + "/" + id), comment);

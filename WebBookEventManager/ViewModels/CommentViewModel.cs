@@ -8,6 +8,7 @@ namespace WebBookEventManager.ViewModels
     public class CommentViewModel
     {
         public string Comment { get; set; }
-
+        public DateTime Date { get; set; }
+        public string Username { get; set; }
     }
 }

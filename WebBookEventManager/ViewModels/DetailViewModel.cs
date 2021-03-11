@@ -7,6 +7,6 @@ namespace WebBookEventManager.ViewModels
     public class DetailViewModel
     {
         public EventDto Event { get; set; }
-        public IEnumerable<CommentDto> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
     }
 }

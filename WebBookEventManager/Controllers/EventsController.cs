@@ -8,12 +8,22 @@ using Shared.Constants.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using WebBookEventManager.Models;
 using WebBookEventManager.ViewModels;
 
 namespace WebBookEventManager.Controllers
 {
     public class EventsController : Controller
     {
+        private readonly UserManager<ApplicationUser> manager;
+        public EventsController(UserManager<ApplicationUser> manager)
+        {
+            this.manager = manager;
+        }
+        public EventsController()
+        {
+
+        }
         // GET: Events
         [Authorize] // will return event form view
         public ActionResult Create()
@@ -81,21 +91,32 @@ namespace WebBookEventManager.Controllers
         public ActionResult Detail(int id)
         {
             var unitOfWork = new UnitOfWork();
-            var eventInDB = unitOfWork.Events.Get(id);
-            var comments = new List<CommentDto>();
+            var eventDetail = unitOfWork.Events.Get(id);
+            var comments = new List<CommentViewModel>();
+            var userDb = new ApplicationDbContext().Users;
+
             foreach (var item in unitOfWork.Comments.Find(m => m.EventId == id))
             {
-                comments.Add(new CommentDto()
-                {
-                    Comment = item.Content,
-                });
+                var comment = Mapper.Map<Comment, CommentViewModel>(item);
+                var userEmail = userDb.Find(item.UserId).Email;
+                comment.Username = userEmail;
+                comments.Add(comment);
             }
-            if (User.Identity.IsAuthenticated && eventInDB.Type == EventType.Private || eventInDB.Type == EventType.Public)
+
+            bool isUserInvited = false;
+            if (User.Identity.IsAuthenticated 
+                && unitOfWork.Invitations.Find(m => m.UserEmail == User.Identity.GetUserId() 
+                && m.EventId == id) != null)
+            {
+                isUserInvited = true;
+            }
+            var canUserViewDetails = eventDetail.Type == EventType.Private && isUserInvited;
+            if (eventDetail.Type == EventType.Public || canUserViewDetails)
             {
                 var viewModel = new DetailViewModel()
                 {
                     Comments = comments,
-                    Event = Mapper.Map<Event, EventDto>(eventInDB),
+                    Event = Mapper.Map<Event, EventDto>(eventDetail),
                 };
                 return View(viewModel);
             }

@@ -1,5 +1,7 @@
 ﻿@model WebBookEventManager.ViewModels.DetailViewModel
 @{
+    /**/
+
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var Event = Model.Event;
@@ -46,28 +48,33 @@
                 <td>@Event.OtherDetails</td>
             </tr>
         }
-       
+
     </tbody>
 </table>
 
-
-
-<div class="d-flex flex-row add-comment-section mt-4 mb-4">
-    <input type="text" class="form-control mr-3" placeholder="Add comment" id="comment">
-    <button class="btn btn-primary" type="button" id="post-comment-button">
-        Comment
-    </button>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+        <input type="text" class="form-control mr-3" placeholder="Add comment" id="comment">
+        <br />
+        <button class="btn btn-primary" type="button" id="post-comment-button">
+            Comment
+        </button>
+    </div>
+}
+<hr />
+<h3>Comments</h3>
 <div id="comments-section">
     @foreach (var comment in Comments)
     {
         Html.RenderPartial("_CommentRow", comment);
     }
 </div>
+
 @section scripts{
 
     <script>
- 
+
         var button = $('#post-comment-button');
         var commentTextBox = $('#comment');
 
@@ -80,8 +87,7 @@
                 },
                 success: () => {
                     var commentSection = $('#comments-section')
-                    commentSection.append(`
-    <div class="d-flex flex-row comment-row m-t-0 rounded">
+                    commentSection.append(`<div class="d-flex flex-row comment-row m-t-0 rounded">
          <div class="comment-text w-100">
             <h6 class="font-medium"></h6>
             <span class="m-b-15">${comment}</span><span class="text-muted float-right">@DateTime.Now</span>
@@ -90,6 +96,9 @@
                 },
             })
         }
-        button.on('click', () => postComment(commentTextBox.val()))
+        button.on('click', () => {
+            postComment(commentTextBox.val());
+            commentTextBox.val("");
+        })
     </script>
 }

@@ -18,17 +18,24 @@ namespace WebBookEventManager.App_Start
             Mapper.CreateMap<EventDto, Event>();
 
             Mapper.CreateMap<Comment, CommentDto>()
-                    .ForMember(dest => dest.Comment, 
+                    .ForMember(dest => dest.Comment,
                                 opt => opt.MapFrom(src => src.Content)
                      );
             Mapper.CreateMap<CommentDto, Comment>()
                     .ForMember(dest => dest.Content, 
                                 opt => opt.MapFrom(src => src.Comment));
 
+            Mapper.CreateMap<Comment, CommentViewModel>()
+                        .ForMember(dest => dest.Comment,
+                            opt => opt.MapFrom(src => src.Content)
+                        )
+                        .ForMember(dest => dest.Username,
+                            opt => opt.MapFrom(src => src.UserId)
+                    );
+                    
 
             Mapper.CreateMap<Event, EventFormViewModel>();
             Mapper.CreateMap<EventFormViewModel, Event>();
-
 
             Mapper.CreateMap<Event, Event>();
         }
