@@ -2,67 +2,102 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<h3 class="text-center">Upcoming events</h3>
 
+<table class="table table-striped table-bordered" id="present-events">
 
-@{
-    <div class="row">
-        <div class="list-group">
-            <ul class="list-group">
-                <li class="list-group-item active">Public Events</li>
-                @foreach (var evnt in Model.PublicEvents)
-                {
-                    <li class="list-group-item">@Html.ActionLink(evnt.Title, "Detail", "Events", new { id = evnt.Id }, null)</li>
-                }
-            </ul>
-        </div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <div class="list-group">
-                <ul class="list-group">
-                    <li class="list-group-item active">Private Events</li>
-                    @foreach (var evnt in Model.PrivateEvents)
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<hr />
+
+<h3 class="text-center">Past events</h3>
+<table class="table table-striped table-bordered" id="past-events">
+
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#present-events').DataTable({
+                ajax: {
+                    url: '/api/events',
+                    dataSrc: 'presentEvents',
+                },
+                columns: [
                     {
-                        <li class="list-group-item">@Html.ActionLink(evnt.Title, "Detail", "Events", new { id = evnt.Id }, null)</li>
-                    }
-                </ul>
-            </div>
-        }
-    </div>
-}
+                        data: "title",
+                        render: (data, type, model) => {
+                            return `<a href='/events/detail/${model.id}'>${data}</a>`
+                        }
+                    },
+                    {
+                        data: 'type',
+                        render: (data) => {
+                            return data === 0 ? 'Public' : 'Private'
+                        }
+                    },
+                    {
+                        data: 'startTime',
 
-<div id="accordion">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Ongoing Events
-                </button>
-            </h5>
-        </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-                @foreach (var evnt in Model.PublicEvents)
-                {
-                    @Html.Partial("_EventCard", evnt);
-                }
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Past Events
-                </button>
-            </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-            <div class="card-body">
-                @foreach (var evnt in Model.PrivateEvents)
-                {
-                    @Html.Partial("_EventCard", evnt);
-                }
-            </div>
-        </div>
-    </div>
-</div>
+
+                    }, {
+                        data: 'date',
+                        render: (date) => {
+                            return new Date(date).toLocaleDateString();
+                        }
+                    }
+                ]
+            })
+        })
+        $(document).ready(function () {
+            $('#past-events').DataTable({
+                ajax: {
+                    url: '/api/events',
+                    dataSrc: 'pastEvents',
+                },
+                columns: [
+                    {
+                        data: "title",
+                        render: (data, type, model) => {
+                            return `<a href='/events/detail/${model.id}'>${data}</a>`
+                        }
+                    },
+
+                    {
+                        data: 'type',
+                        render: (data) => {
+                            return data === 0 ? 'Public' : 'Private'
+                        }
+                    },
+                    {
+                        data: 'startTime',
+
+                    },
+                    {
+                        data: 'date',
+                        render: (date) => {
+                            return new Date(date).toLocaleDateString();
+                        }
+                    }
+                ]
+            })
+        })
+    </script>
+}

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<DTO.Events.EventDto>
+@{
+    ViewBag.Title = "Invited";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+
+<div class="row">
+
+
+    @{
+        foreach (var evnt in Model)
+        {
+            Html.RenderPartial("_EventCard", evnt);
+        }
+    }
+</div>

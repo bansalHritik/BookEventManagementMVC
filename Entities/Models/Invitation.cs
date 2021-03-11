@@ -9,10 +9,12 @@ namespace Entities.Models
 {
     public class Invitation
     { 
+        public int Id { get; set; }
+
         [Required]
         public string UserEmail{ get; set; }
 
-        public Event Event;
+        public Event Event { get; set; }
         public int EventId { get; set; }
     }
 }

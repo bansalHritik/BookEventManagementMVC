@@ -30,7 +30,7 @@ namespace WebBookEventManager.ViewModels
         public string StartTime { get; set; }
 
         [Range(0.0, 4.0), Display(Name = "Duration(in hours)")]
-        public byte? DurationInHours { get; set; }
+        public byte? Duration { get; set; }
 
         [StringLength(50)]
         public string Description { get; set; }
@@ -41,6 +41,7 @@ namespace WebBookEventManager.ViewModels
         [Display(Name = "Event Type")]
         public EventType Type { get; set; }
 
+        [Display(Name = "Invite People")]
         public string EmailInvities { get; set; }
     }
 }

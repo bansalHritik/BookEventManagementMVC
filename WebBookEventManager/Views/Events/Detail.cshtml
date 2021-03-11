@@ -1,19 +1,95 @@
-﻿@model DTO.Events.EventDto
+﻿@model WebBookEventManager.ViewModels.DetailViewModel
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var Event = Model;
+    var Event = Model.Event;
+    var Comments = Model.Comments;
 }
+<h3 class="text-center">Detail</h3>
+<hr />
+<table class="table table-striped table-bordered table-hover">
+    <tbody>
+        <tr>
+            <th>Title</th>
+            <td>@Event.Title</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>@Event.Date</td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td>@Event.Location</td>
+        </tr>
+        <tr>
+            <th>Time</th>
+            <td>@Event.StartTime</td>
+        </tr>
+        @if (Event.Duration != 0)
+        {
+            <tr>
+                <th>Duration</th>
+                <td>@Event.Duration</td>
+            </tr>
+        }
+        @if (Event.Description != null)
+        {
+            <tr>
+                <th>Description</th>
+                <td>@Event.Description</td>
+            </tr>
+        }
+        @if (Event.OtherDetails != null)
+        {
+            <tr>
+                <th>Other Detail</th>
+                <td>@Event.OtherDetails</td>
+            </tr>
+        }
+       
+    </tbody>
+</table>
 
-<h2>Detail</h2>
-<p>@Event.Title</p>
-<p>@Event.StartTime</p>
-<p>@Event.Date.ToShortDateString()</p>
+
 
 <div class="d-flex flex-row add-comment-section mt-4 mb-4">
     <input type="text" class="form-control mr-3" placeholder="Add comment" id="comment">
-    <button class="btn btn-primary" type="button" >
+    <button class="btn btn-primary" type="button" id="post-comment-button">
         Comment
     </button>
 </div>
+<div id="comments-section">
+    @foreach (var comment in Comments)
+    {
+        Html.RenderPartial("_CommentRow", comment);
+    }
+</div>
+@section scripts{
 
+    <script>
+ 
+        var button = $('#post-comment-button');
+        var commentTextBox = $('#comment');
+
+        var postComment = (comment) => {
+            $.ajax({
+                url: '/api/comments/@Event.Id',
+                method: 'POST',
+                data: {
+                    comment
+                },
+                success: () => {
+                    var commentSection = $('#comments-section')
+                    commentSection.append(`
+    <div class="d-flex flex-row comment-row m-t-0 rounded">
+         <div class="comment-text w-100">
+            <h6 class="font-medium"></h6>
+            <span class="m-b-15">${comment}</span><span class="text-muted float-right">@DateTime.Now</span>
+    </div>
+</div>`)
+                },
+            })
+        }
+        button.on('click', () => postComment(commentTextBox.val()))
+    </script>
+}

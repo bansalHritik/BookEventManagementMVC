@@ -8,38 +8,17 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            @Html.ActionLink("My Web Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav mr-auto">
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">@Html.ActionLink("Invited Events", "Invited", null, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Manage Events", "Manage", "Events", null, new { @class = "nav-link" })</li>
-                    }
-                    <li>@Html.ActionLink("Add Event", "Create", "Events", null, new { @class = "nav-link" })</li>
-
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
+    @Html.Partial("_NavBar")
+    <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/customScripts")
+
 </body>
 </html>

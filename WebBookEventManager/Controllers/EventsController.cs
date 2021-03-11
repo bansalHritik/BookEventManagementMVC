@@ -1,50 +1,64 @@
 ﻿using AutoMapper;
+using DTO.Comment;
 using DTO.Events;
 using Entities.Models;
 using Entities.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebBookEventManager.ViewModels;
 using Microsoft.AspNet.Identity;
 using Shared.Constants.Enums;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using WebBookEventManager.ViewModels;
 
 namespace WebBookEventManager.Controllers
 {
     public class EventsController : Controller
     {
         // GET: Events
-        [Authorize]
+        [Authorize] // will return event form view
         public ActionResult Create()
         {
-            return View("EventForm");
+            return View("EventForm", new EventFormViewModel());
         }
 
+        // will get event from db and pass it to the form.
         public ActionResult Edit(int id)
         {
-            var viewModel = new EventFormViewModel();
-            return View("EventForm", viewModel);
+            var db = new UnitOfWork();
+            var eventInDb = db.Events.Get(id);
+            if (eventInDb == null)
+            {
+                return HttpNotFound("Can't edit a non existing event.");
+            }
+            var defaultValues = Mapper.Map<Event, EventFormViewModel>(eventInDb);
+            return View("EventForm", defaultValues);
+
         }
 
         [ValidateAntiForgeryToken, HttpPost]
         public ActionResult Save(EventDto eventDto)
         {
-            var userID = User.Identity.GetUserId();
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Create");
+                return View("EventForm", new EventFormViewModel());
             }
-            var unitOfWork = new UnitOfWork();
-            var newEvent = new Event()
+            var db = new UnitOfWork();
+            if (eventDto.Id != 0)
             {
-                AuthorId = User.Identity.GetUserId(),
-            };
-            var eventModel = Mapper.Map(eventDto, newEvent);
-            var events = unitOfWork.Events.GetAll();
-            unitOfWork.Events.Add(eventModel);
-            unitOfWork.Complete();
+                var eventInDb = db.Events.Get(eventDto.Id);
+                db.Events.Remove(eventInDb);
+                var newEvent = Mapper.Map<EventDto, Event>(eventDto);
+                newEvent.AuthorId = eventInDb.AuthorId;
+                db.Events.Add(newEvent);
+            }
+            else
+            {
+                var userID = User.Identity.GetUserId();
+                var newEvent = new Event() { AuthorId = userID };
+                var eventModel = Mapper.Map(eventDto, newEvent);
+                db.Events.Add(eventModel);
+            }
+            db.Complete();
             return RedirectToAction("Index", "Home");
         }
 
@@ -58,25 +72,49 @@ namespace WebBookEventManager.Controllers
             return View(temp);
         }
 
-        
+        public ActionResult All()
+        {
+            return View();
+        }
 
         [AllowAnonymous]
         public ActionResult Detail(int id)
         {
             var unitOfWork = new UnitOfWork();
             var eventInDB = unitOfWork.Events.Get(id);
-            unitOfWork.Comments.Add(new Comment()
+            var comments = new List<CommentDto>();
+            foreach (var item in unitOfWork.Comments.Find(m => m.EventId == id))
             {
-                Content = "sdkfjksbdsjbkd sdfsd sdsndfsdn sdm",
-                EventId = id,
-            });
-            unitOfWork.Complete();
+                comments.Add(new CommentDto()
+                {
+                    Comment = item.Content,
+                });
+            }
             if (User.Identity.IsAuthenticated && eventInDB.Type == EventType.Private || eventInDB.Type == EventType.Public)
             {
-                return View(Mapper.Map<Event, EventDto>(eventInDB));
+                var viewModel = new DetailViewModel()
+                {
+                    Comments = comments,
+                    Event = Mapper.Map<Event, EventDto>(eventInDB),
+                };
+                return View(viewModel);
             }
-           
+
             return RedirectToAction("Login", "Account");
+        }
+
+        public ActionResult Invited()
+        {
+            var unitOfWork = new UnitOfWork();
+            var currentUserEmail = User.Identity.GetUserId();
+            var userInvitationsInDB = unitOfWork.Invitations.Find(m => m.UserEmail == currentUserEmail);
+            var invitations = new List<EventDto>();
+            foreach (var invite in userInvitationsInDB)
+            {
+                var eventInDb = unitOfWork.Events.Get(invite.EventId);
+                invitations.Add(Mapper.Map<Event, EventDto>(eventInDb));
+            }
+            return View(invitations);
         }
     }
 }

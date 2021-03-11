@@ -16,6 +16,5 @@ namespace Entities.Models
 
         [StringLength(255)]
         public string Content { get; set; }
-        
     }
 }

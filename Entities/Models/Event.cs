@@ -17,7 +17,7 @@ namespace Entities.Models
         [Required]
         public string Title { get; set; }
 
-        [Required, DataType(DataType.Date)]
+        [Required]
         public DateTime Date { get; set; }
 
         [Required]
