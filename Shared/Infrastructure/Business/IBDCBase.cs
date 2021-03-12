@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Infrastructure.Business
 {
-    public class BDCBase : IBDCBase
+    public interface IBDCBase
     {
-
     }
 }

@@ -26,6 +26,7 @@ namespace WebBookEventManager.Controllers
         // will get event from db and pass it to the form.
         public ActionResult Edit(int id)
         {
+
             var db = new UnitOfWork();
             var eventInDb = db.Events.Get(id);
             if (eventInDb == null)

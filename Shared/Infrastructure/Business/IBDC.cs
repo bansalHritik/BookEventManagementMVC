@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Shared.Infrastructure.Business
 {
-    public class BDCBase : IBDCBase
+    public interface IBDC<T> where T : class
     {
-
+        IRepository<T> Repository { get; set; }
     }
 }

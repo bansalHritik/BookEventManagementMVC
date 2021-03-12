@@ -113,7 +113,6 @@
     <Compile Include="Repository\IEventRepository.cs" />
     <Compile Include="Repository\IInvitationRepository.cs" />
     <Compile Include="Repository\InvitationRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
   </ItemGroup>
   <ItemGroup>

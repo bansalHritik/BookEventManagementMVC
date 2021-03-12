@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data Layer", "3. Data La
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Shared", "4. Shared", "{72DDBAF7-D075-42BA-8BC6-3C359FBF3647}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{25E41F2D-AA4C-41CA-B4E1-30C380A90735}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "BusinessLayer\Business.csproj", "{25E41F2D-AA4C-41CA-B4E1-30C380A90735}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "Entities\DAL.csproj", "{2F53FCE8-3495-4AB5-B1F7-C0B3E5A76EFE}"
 EndProject
