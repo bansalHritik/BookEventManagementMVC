@@ -1,15 +1,13 @@
 ﻿@model WebBookEventManager.ViewModels.EventFormViewModel
 
 @{
-                /**/
-
-                ViewBag.Title = "EventForm";
-                var mdoel = Model;
+    ViewBag.Title = "EventForm";
+    var mdoel = Model;
 }
 
 <h2>New Event</h2>
 
-@using(Html.BeginForm("Save", "Events", null, FormMethod.Post, new { @id = "new-event-form" }))
+@using (Html.BeginForm("Save", "Events", null, FormMethod.Post, new { @id = "new-event-form" }))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Title, new { @class = "required" })
@@ -19,7 +17,7 @@
 
     <div class="form-group">
         @Html.LabelFor(m => m.Date, new { @class = "required" })
-        @Html.TextBoxFor(m => m.Date, "{0:d MMM yyyy}", new { @class = "form-control", @type = "date" })
+        @Html.TextBoxFor(m => m.Date, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@min="01-01-2000" })
         @Html.ValidationMessageFor(m => m.Date)
     </div>
 
@@ -63,9 +61,7 @@
         @Html.LabelFor(m => m.EmailInvities)
         @Html.TextBoxFor(m => m.EmailInvities, new { @class = "form-control email-invitation-box" })
         @Html.ValidationMessageFor(m => m.EmailInvities)
-        
     </div>
-    <button type="button" id="add-more-invites" class="btn btn-primary">Add More</button>
 
     @Html.HiddenFor(m => m.Id)
     @Html.AntiForgeryToken();

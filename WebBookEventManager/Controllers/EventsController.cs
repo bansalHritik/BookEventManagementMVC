@@ -15,17 +15,9 @@ namespace WebBookEventManager.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly UserManager<ApplicationUser> manager;
-        public EventsController(UserManager<ApplicationUser> manager)
-        {
-            this.manager = manager;
-        }
-        public EventsController()
-        {
 
-        }
         // GET: Events
-        [Authorize] // will return event form view
+        // will return event form view
         public ActionResult Create()
         {
             return View("EventForm", new EventFormViewModel());
@@ -40,7 +32,15 @@ namespace WebBookEventManager.Controllers
             {
                 return HttpNotFound("Can't edit a non existing event.");
             }
+            var userTable = new ApplicationDbContext().Users;
             var defaultValues = Mapper.Map<Event, EventFormViewModel>(eventInDb);
+            var invities = db.Invitations.Find(m => m.EventId == id);
+            string commaSeperatedUser = "";
+            foreach (var invitation in invities)
+            {
+                commaSeperatedUser += userTable.Find(invitation.UserId).Email+ ", ";
+            }
+            defaultValues.EmailInvities = commaSeperatedUser;
             return View("EventForm", defaultValues);
 
         }
@@ -53,22 +53,41 @@ namespace WebBookEventManager.Controllers
                 return View("EventForm", new EventFormViewModel());
             }
             var db = new UnitOfWork();
+            var newEvent = new Event();
             if (eventDto.Id != 0)
             {
                 var eventInDb = db.Events.Get(eventDto.Id);
                 db.Events.Remove(eventInDb);
-                var newEvent = Mapper.Map<EventDto, Event>(eventDto);
-                newEvent.AuthorId = eventInDb.AuthorId;
-                db.Events.Add(newEvent);
             }
-            else
-            {
-                var userID = User.Identity.GetUserId();
-                var newEvent = new Event() { AuthorId = userID };
-                var eventModel = Mapper.Map(eventDto, newEvent);
-                db.Events.Add(eventModel);
-            }
+
+            var userID = User.Identity.GetUserId();
+            newEvent.AuthorId = userID;
+            newEvent = Mapper.Map(eventDto, newEvent);
+            db.Events.Add(newEvent);
             db.Complete();
+
+            db.Invitations.RemoveRange(db.Invitations.Find(m => m.EventId == eventDto.Id));
+            db.Complete();
+
+            if (eventDto.EmailInvities != null)
+            {
+                var invities = eventDto.EmailInvities.Split(',');
+                
+                foreach (var item in invities)
+                {
+                    var userEmail = item.Trim();
+                    var user = new ApplicationDbContext().Users.FirstOrDefault(m => m.Email == userEmail);
+                    if (user != null)
+                    {
+                        db.Invitations.Add(new Invitation()
+                        {
+                            EventId = newEvent.Id,
+                            UserId = user.Id,
+                        });
+                    }
+                    db.Complete();
+                }
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -82,10 +101,6 @@ namespace WebBookEventManager.Controllers
             return View(temp);
         }
 
-        public ActionResult All()
-        {
-            return View();
-        }
 
         [AllowAnonymous]
         public ActionResult Detail(int id)
@@ -104,8 +119,8 @@ namespace WebBookEventManager.Controllers
             }
 
             bool isUserInvited = false;
-            if (User.Identity.IsAuthenticated 
-                && unitOfWork.Invitations.Find(m => m.UserEmail == User.Identity.GetUserId() 
+            if (User.Identity.IsAuthenticated
+                && unitOfWork.Invitations.Find(m => m.UserId == User.Identity.GetUserId()
                 && m.EventId == id) != null)
             {
                 isUserInvited = true;
@@ -128,7 +143,7 @@ namespace WebBookEventManager.Controllers
         {
             var unitOfWork = new UnitOfWork();
             var currentUserEmail = User.Identity.GetUserId();
-            var userInvitationsInDB = unitOfWork.Invitations.Find(m => m.UserEmail == currentUserEmail);
+            var userInvitationsInDB = unitOfWork.Invitations.Find(m => m.UserId == currentUserEmail);
             var invitations = new List<EventDto>();
             foreach (var invite in userInvitationsInDB)
             {

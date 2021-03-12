@@ -27,7 +27,7 @@ namespace WebBookEventManager.Controllers
             {
                 if(evnt.Type == EventType.Private && User.Identity.IsAuthenticated)
                 {
-                    var isInvited = unitOfWork.Invitations.Find(m => m.UserEmail == User.Identity.Name).Any(m => m.EventId == evnt.Id);
+                    var isInvited = unitOfWork.Invitations.Find(m => m.UserId == User.Identity.Name).Any(m => m.EventId == evnt.Id);
                     if (!isInvited) continue;
                 }
                 if (evnt.Date < currentDateTime)

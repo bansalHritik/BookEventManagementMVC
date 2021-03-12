@@ -15,7 +15,7 @@ namespace DTO.Events
 
         public string StartTime { get; set; }
 
-        public byte Duration { get; set; }
+        public byte? Duration { get; set; }
 
         public string Description { get; set; }
 
@@ -23,6 +23,6 @@ namespace DTO.Events
 
         public EventType Type { get; set; }
 
-        
+        public string EmailInvities { get; set; }
     }
 }

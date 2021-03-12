@@ -23,32 +23,51 @@ namespace WebBookEventManager.Controllers.API
             _context = new UnitOfWork();
         }
 
+        [HttpGet]
+        public IHttpActionResult Invited(string id)
+        {
+            var UserInvited = _context.Invitations.Find(m =>m.UserId==id);
+            var invitedEvents = new List<EventDto>();
+            foreach(var invitation in UserInvited)
+            {
+                var evnt = _context.Events.Get(invitation.EventId);
+                invitedEvents.Add(Mapper.Map<Event, EventDto>(evnt));
+            }
+            return Ok(invitedEvents);
+        }
+
         // GET /api/events/1
         [HttpGet]
         public IHttpActionResult UserEvents(string id)
         {
-            var db = new UnitOfWork();
-            var userCreatedEvents = db.Events.Find(m => m.AuthorId == id);
+            var userCreatedEvents = _context.Events.Find(m => m.AuthorId == id);
             var temp = userCreatedEvents.Select(m => Mapper.Map<Event, EventDto>(m));
             return Ok(temp);
         }
         
         public IHttpActionResult GetEvents()
         {
-            var unitOfWork = new UnitOfWork();
             var pastEvents = new List<EventDto>();
             var upcomingEvents = new List<EventDto>();
 
             var currentDateTime = DateTime.Now;
 
-            foreach (var evnt in unitOfWork.Events.GetAll())
+            foreach (var evnt in _context.Events.GetAll())
             {
-                if (evnt.Type == EventType.Private && User.Identity.IsAuthenticated)
+                if (evnt.Type == EventType.Private)
                 {
-                    var userId = User.Identity.GetUserId();
-                    var isInvited = unitOfWork.Invitations.Find(m => m.UserEmail == userId).Any(m => m.EventId == evnt.Id);
-
-                    if (!isInvited && userId != evnt.AuthorId) {
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        var userId = User.Identity.GetUserId();
+                        var invitations = _context.Invitations
+                            .Find(m => (m.UserId == userId && m.EventId == evnt.Id));
+                        if (invitations == null && userId != evnt.AuthorId)
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
                         continue;
                     }
                 }

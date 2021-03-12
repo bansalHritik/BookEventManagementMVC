@@ -26,6 +26,11 @@ namespace WebBookEventManager
                 routeTemplate: "api/events/user/{id}",
                 defaults: new { controller = "Events", action="UserEvents" }
             );
+            config.Routes.MapHttpRoute(
+                name: "Invited Events",
+                routeTemplate: "api/events/user/invited/{id}",
+                defaults: new { controller = "Events", action = "Invited" }
+            );
         }
     }
 }

@@ -37,8 +37,6 @@ namespace Entities.Models
         [StringLength(500)]
         public string OtherDetails { get; set; }
 
-        public string EmailInvites { get; set; }
-
         [Required]
         public string AuthorId { get; set; }
     }

@@ -93,6 +93,14 @@
     <Compile Include="Migrations\202103110755129_AddedUserIdandDatetoCommentTable.designer.cs">
       <DependentUpon>202103110755129_AddedUserIdandDatetoCommentTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103120702086_DeletedEmailInvitesColumnFromEventTable.cs" />
+    <Compile Include="Migrations\202103120702086_DeletedEmailInvitesColumnFromEventTable.designer.cs">
+      <DependentUpon>202103120702086_DeletedEmailInvitesColumnFromEventTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103120706261_ChangeUserEmailtoUserIdinInvitationTable.cs" />
+    <Compile Include="Migrations\202103120706261_ChangeUserEmailtoUserIdinInvitationTable.designer.cs">
+      <DependentUpon>202103120706261_ChangeUserEmailtoUserIdinInvitationTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Event.cs" />
@@ -150,6 +158,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103110755129_AddedUserIdandDatetoCommentTable.resx">
       <DependentUpon>202103110755129_AddedUserIdandDatetoCommentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103120702086_DeletedEmailInvitesColumnFromEventTable.resx">
+      <DependentUpon>202103120702086_DeletedEmailInvitesColumnFromEventTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103120706261_ChangeUserEmailtoUserIdinInvitationTable.resx">
+      <DependentUpon>202103120706261_ChangeUserEmailtoUserIdinInvitationTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
